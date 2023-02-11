@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 
 function DefaultLayout() {
@@ -9,8 +9,20 @@ function DefaultLayout() {
     return <Navigate to="/login" />;
   }
   return (
-    <div>
-      <Outlet />
+    <div id="defaultLayout">
+      <aside>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/users">User</Link>
+      </aside>
+      <div className="content">
+        <header>
+          <div>Header</div>
+          <div>User information</div>
+        </header>
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
