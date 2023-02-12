@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 
@@ -27,7 +28,7 @@ const Signup = () => {
       })
       .catch((err) => {
         const response = err.response;
-        if (repsone && response.status === 422) {
+        if (response && response.status === 422) {
           console.log(response.data.errors);
         }
       });
