@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const onSubmit = (ev) => {
-  ev.preventDefault();
-};
-
 const Login = () => {
+  const onSubmit = (ev) => {
+    ev.preventDefault();
+  };
+
   return (
     <div className="login-signup-form animated fadeInDown">
       <div className="form">
