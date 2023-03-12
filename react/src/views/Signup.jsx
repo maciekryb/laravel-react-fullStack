@@ -6,7 +6,7 @@ import { useStateContext } from "../context/ContextProvider";
 const Signup = () => {
   const nameRef = useRef();
   const emailRef = useRef();
-  const passowrdRef = useRef();
+  const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
   const [errors, setErrors] = useState(null);
 
@@ -17,7 +17,7 @@ const Signup = () => {
     const payload = {
       name: nameRef.current.value,
       email: emailRef.current.value,
-      passowrd: passowrdRef.current.value,
+      password: passwordRef.current.value,
       password_confirmation: passwordConfirmationRef.current.value,
     };
 
@@ -30,6 +30,7 @@ const Signup = () => {
       .catch((err) => {
         const response = err.response;
         if (response && response.status === 422) {
+          console.log(response.data.errors);
           setErrors(response.data.errors);
         }
       });
@@ -50,7 +51,7 @@ const Signup = () => {
           )}
           <input ref={nameRef} placeholder="Full Name" />
           <input ref={emailRef} placeholder="Email Adress" type="email" />
-          <input ref={passowrdRef} placeholder="Password" type="password" />
+          <input ref={passwordRef} placeholder="Password" type="password" />
           <input
             ref={passwordConfirmationRef}
             placeholder="Password Confirmation"
