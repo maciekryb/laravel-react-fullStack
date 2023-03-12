@@ -40,9 +40,9 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
-    public function logout($request)
+    public function logout(Request $request)
     {
-        /** @var User $user */
+        /** @var \App\Models\User $user */
         $user = $request->user();
         $user->currentAccessToken()->delete();
         return response('', 204);
