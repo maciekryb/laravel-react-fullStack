@@ -15,6 +15,7 @@ const UserForm = () => {
   });
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { setNotification } = useStateContext();
 
   if (id) {
     useEffect(() => {
@@ -33,11 +34,11 @@ const UserForm = () => {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    debugger;
     if (user.id) {
       axiosClient
         .put(`/users/${user.id}`, user)
         .then(() => {
+          setNotification("User was successfully updated");
           navigate("/users");
         })
         .catch((err) => {
@@ -50,6 +51,7 @@ const UserForm = () => {
       axiosClient
         .post(`/users/`, user)
         .then(() => {
+          setNotification("User was successfully created");
           navigate("/users");
         })
         .catch((err) => {
