@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import axiosClient from "../axios-client";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 
 const UserForm = () => {
-  const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
+  const navigate = useNavigate();
+  let { id } = useParams();
   const [user, setUser] = useState({
-    id: "null",
+    id: null,
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
   });
+  const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   if (id) {
     useEffect(() => {
@@ -32,6 +33,32 @@ const UserForm = () => {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
+    debugger;
+    if (user.id) {
+      axiosClient
+        .put(`/users/${user.id}`, user)
+        .then(() => {
+          navigate("/users");
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            setErrors(response.data.errors);
+          }
+        });
+    } else {
+      axiosClient
+        .post(`/users/`, user)
+        .then(() => {
+          navigate("/users");
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            setErrors(response.data.errors);
+          }
+        });
+    }
   };
 
   return (
@@ -55,15 +82,18 @@ const UserForm = () => {
               placeholder="Name"
             ></input>
             <input
+              type="email"
               value={user.email}
               onChange={(ev) => setUser({ ...user, email: ev.target.value })}
               placeholder="Email"
             ></input>
             <input
+              type="password"
               onChange={(ev) => setUser({ ...user, password: ev.target.value })}
               placeholder="Password"
             ></input>
             <input
+              type="password"
               onChange={(ev) =>
                 setUser({ ...user, password_confirmation: ev.target.value })
               }
